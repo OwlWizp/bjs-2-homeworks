@@ -6,18 +6,18 @@ function Student(name, gender, age) {
 }
 
 Student.prototype.setSubject = function (subjectName) {
-  this.subject = subjectName
+  this.subject = subjectName;
 }
 
 Student.prototype.addMarks = function (...marks) {
-    this.marks && this.marks(...marks)
+  this.marks && this.marks.push(...marks);
 }
 
 Student.prototype.getAverage = function () {
-    if (this.marks  this.marks.length === 0)  {
-        return 0;
-    }
-    return this.marks.reduce((average, userAge, index, array) => average + userAge / array.length,0);
+  if (this.marks && this.marks.length !== 0)  {
+    return this.marks.reduce((average, userAge, index, array) => average + userAge / array.length,0);;
+  }
+return 0
 }
 
 Student.prototype.exclude = function (reason) {
@@ -35,5 +35,5 @@ student1.addMarks(4, 5, 4, 5);
 console.log(student1.getAverage()); // 4.5
 console.log(student1);
 student2.setSubject("Geometry");
-student2.exclude('плохая учёба')
-console.log(student2)
+student2.exclude('плохая учёба');
+console.log(student2);
