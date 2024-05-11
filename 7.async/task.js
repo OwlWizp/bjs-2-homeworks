@@ -1,11 +1,11 @@
 class AlarmClock {
     
-    constructor () {
+    constructor(){
         this.alarmCollection = [];
-        this.intervalId;
+        this.intervalId = null;
     }
 
-    addClock (time, fync) {
+    addClock(time, fync){
         if (!time || !fync) {
             throw new Error('Отсутствуют обязательные аргументы');
         };
@@ -21,11 +21,41 @@ class AlarmClock {
         })        
     }
 
-    removeClock (time) {
+    removeClock(time){
         this.alarmCollection = this.alarmCollection.filter(alarm => alarm.time !== time)
 
     }
-    getCurrentFormattedTime {
-        return "new Date().getHours() : new Date().hoursgetMinutes()"
+
+    getCurrentFormattedTime () {
+        return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    }
+
+    start(){
+        if (this.intervalId) {
+            return;
+        }
+        this.intervalId = setInterval(()=> {
+            this.alarmCollection.forEach(ring => {
+                if (ring.time === this.getCurrentFormattedTime() && ring.canCall === true) {
+                    ring.canCall = false;
+                    ring.callback();
+                }
+            })
+        }, 1000 )
+
+    }
+
+    stop(){
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+    }
+
+    resetAllCalls(){
+        this.alarmCollection.forEach(ring => ring.canCall = true);
+    }
+
+    clearAlarms(){
+        this.stop();
+        this.alarmCollection = [];
     }
 }
